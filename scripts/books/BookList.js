@@ -4,6 +4,7 @@ import { useGenres, getGenres } from "../genres/GenreProvider.js"
 import { getBookGenres, useBookGenres } from "../bookGenres/BookGenreProvider.js"
 
 const contentElement = document.querySelector(".bookContainer")
+const eventHub = document.querySelector(".container")
 
 export const bookList = () => {
   getBooks()
@@ -14,8 +15,8 @@ export const bookList = () => {
     const allBooks = usebooks()
     render(allBooks, allGenres)
   })
-
 }
+
 
 
 const render = (books, genres) => {

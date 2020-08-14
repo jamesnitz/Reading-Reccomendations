@@ -9,3 +9,14 @@ export const getBookGenres = () => {
             bookGenres = parsedBookGenres
         })
 }
+
+export const saveBookGenre = bookGenreObj => {
+    return fetch('http://localhost:8088/bookGenres', {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(bookGenreObj)
+    })
+    .then(getBookGenres)
+}
