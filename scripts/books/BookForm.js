@@ -1,4 +1,6 @@
 import { getGenres, useGenres } from "../genres/GenreProvider.js"
+import { saveBook, usebooks } from "./BookProvider.js"
+import { saveBookGenre } from "../bookGenres/BookGenreProvider.js"
 
 const target = document.querySelector(".bookFormContainer")
 
@@ -22,6 +24,13 @@ export const bookForm = () => {
   })
 }
 
+
+eventHub.addEventListener("bookGenreStateChanged", event => {
+    document.querySelector("#book-title").value = ""
+    document.querySelector("#book-author").value = ""
+    document.querySelector("#book-genre").value = "0"
+})
+
 eventHub.addEventListener("click", event => {
   if (event.target.id === "save-button") {
     const title = document.querySelector("#book-title").value
@@ -34,6 +43,15 @@ eventHub.addEventListener("click", event => {
       title: title,
       author: author,
     }
-    debugger
+    saveBook(bookObj).then( () => {
+     const allbooks = usebooks()
+      const foundBook = allbooks.find(book => book.title === title && book.author === author)
+      for (const value of genreValues){
+        saveBookGenre({
+          bookId: foundBook.id,
+          genreId: value
+        })
+      }
+    })
   }
 })

@@ -1,6 +1,12 @@
 let books = []
 
 export const usebooks = () => books.slice()
+const eventHub = document.querySelector("#container")
+
+const dispatchStateChangeEvent = () => {
+    const bookStateChangedEvent = new CustomEvent("bookStateChanged")
+    eventHub.dispatchEvent(bookStateChangedEvent)
+}
 
 export const getBooks = () => {
     return fetch('http://localhost:8088/books')
@@ -20,6 +26,7 @@ export const saveBook = book => {
         body: JSON.stringify(book)
     })
     .then(getBooks)
+    .then(dispatchStateChangeEvent)
 }
 
 export const deleteBook = bookId => {

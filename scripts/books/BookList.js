@@ -4,7 +4,7 @@ import { useGenres, getGenres } from "../genres/GenreProvider.js"
 import { getBookGenres, useBookGenres } from "../bookGenres/BookGenreProvider.js"
 
 const contentElement = document.querySelector(".bookContainer")
-const eventHub = document.querySelector(".container")
+const eventHub = document.querySelector("#container")
 
 export const bookList = () => {
   getBooks()
@@ -17,6 +17,9 @@ export const bookList = () => {
   })
 }
 
+eventHub.addEventListener("bookGenreStateChanged", event => {
+ bookList()
+})
 
 
 const render = (books, genres) => {
@@ -29,6 +32,7 @@ const render = (books, genres) => {
         const foundGenres = genres.find(genre => genre.id === bg.genreId);
         return foundGenres;
       })
+
       return BookHtml(book, foundGenresArray)
     }).join(" ")}
     `
